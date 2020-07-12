@@ -28,13 +28,14 @@ int main(void)
 		{
 			case ROUND_LOSS:
 			{
+				Game_HandleLoss();
 				break;
 			}
 			case ROUND_WIN:
 			{
 				Game_IncrementCurrentScore();
-				Game_FlashCurrentScoreOnLeds();
 				break;
+				Game_DisplayCurrentScoreOnLeds();
 			}
 		}
 	}

@@ -36,7 +36,7 @@ typedef struct
 void		Game_InitGame(void);
 GameState_e	Game_PlayRound(void);
 void		Game_IncrementCurrentScore(void);
-void		Game_FlashCurrentScoreOnLeds(void);
+void		Game_DisplayCurrentScoreOnLeds(void);
 GameState_e Game_GetGameState(void);
-
+void		Game_HandleLoss(void);
 #endif /* GAME_H_ */

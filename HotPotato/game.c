@@ -2,13 +2,15 @@
  * game.c
  *
  * Created: 7/11/2020 5:07:01 PM
- *  Author: Spencer Comora
+ *  Author: Spencer Comora, Matthew Gerstel
  */ 
 
 #include "game.h"
 #include "rand.h"
 #include "timer.h"
 #include "gpio.h"
+ 
+#define CLEAR_SCREEN	(0x00)
  
 Game_t game;
 
@@ -32,6 +34,8 @@ GameState_e	Game_PlayRound(void)
 		if ((PORTA.IN ^ prevUserInput) == valueToSwitchOn)
 		{
 			userGuessedCorrectly = TRUE;
+			GPIO_WriteValueToLeds(CLEAR_SCREEN);
+			break;
 		}
 	}
 	if (userGuessedCorrectly == TRUE)
@@ -46,12 +50,29 @@ void Game_IncrementCurrentScore(void)
 	game.scoreInfo.currScore++;
 }
 
-void Game_FlashCurrentScoreOnLeds(void)
+void Game_DisplayCurrentScoreOnLeds(void)
 {
-	
+
 }
 
 GameState_e Game_GetGameState(void)
 {
 	return ROUND_LOSS;
+}
+
+void Game_HandleLoss(void)
+{
+	// TODO: Play loss animation
+	if (game.scoreInfo.currScore > game.scoreInfo.highScore)
+	{
+		game.scoreInfo.highScore = game.scoreInfo.currScore;
+		game.scoreInfo.currScore = 0;
+		//TODO: Blink High Score
+	}
+	else
+	{
+		//TODO: Display Score
+		game.scoreInfo.currScore = 0;
+	}
+	//TODO: GOTO Main Menu
 }

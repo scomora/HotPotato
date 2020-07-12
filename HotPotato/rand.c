@@ -15,7 +15,7 @@ void	Rand_Init(void)
 
 uint8_t	Rand_GetRandomU8(void)
 {
-	return (uint8_t)TCC0.CNT;
+	return (uint8_t) TCC0.CNT;
 }
 
 uint8_t Rand_GetRandomPowerOfTwoU8(void)
