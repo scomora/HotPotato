@@ -19,6 +19,41 @@ void Game_InitGame(void)
 	game.scoreInfo.all = 0;
 }
 
+// never returns
+void Game_RunGame(void)
+{
+	GameState_e roundResult;
+	while (!Game_DoesUserWantToQuit())
+	{
+		roundResult = Game_PlayRound();
+		switch(roundResult)
+		{
+			case ROUND_LOSS:
+			{
+				break;
+			}
+			case ROUND_WIN:
+			{
+				Game_IncrementCurrentScore();
+				Game_FlashCurrentScoreOnLeds();
+				break;
+			}
+		}
+	}
+	// never return
+	while(TRUE);
+}
+
+Bool_e Game_DoesUserWantToQuit(void)
+{
+	volatile uint8_t mostRecentInput = GPIO_GetMostRecentUserInput();
+	if ((mostRecentInput & USER_QUIT_bm) == USER_QUIT_bm)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
 GameState_e	Game_PlayRound(void)
 {
 	volatile uint8_t initialUserInput;
@@ -30,25 +65,26 @@ GameState_e	Game_PlayRound(void)
 	initialUserInput = PORTA.IN;
 	userGuessedCorrectly = FALSE;
 	valueToSwitchOn = Rand_GetRandomPowerOfTwoU8();
-	
+
 	GPIO_WriteValueToLeds(valueToSwitchOn);
 	TC_Start();
 	
-	while ((TCC0.INTFLAGS & TC0_OVFIF_bm) != TC0_OVFIF_bm)
+	while ((TCD0.INTFLAGS & TC0_OVFIF_bm) == 0)
 	{
 		currUserInput = GPIO_GetUserInputAtSwitches();
 		changeInUserInput = currUserInput ^ initialUserInput;
 		if (valueToSwitchOn == changeInUserInput)
 		{
 			userGuessedCorrectly = TRUE;
+			break;
 		}
 	}
+	TC_clear_ovfif();
 	
 	if (userGuessedCorrectly == TRUE)
 	{
 		return ROUND_WIN;
 	}
-	
 	return ROUND_LOSS;
 }
 
@@ -59,10 +95,30 @@ void Game_IncrementCurrentScore(void)
 
 void Game_FlashCurrentScoreOnLeds(void)
 {
-	
+	asm("nop");
 }
 
 GameState_e Game_GetGameState(void)
 {
 	return game.gameState;
+}
+
+uint8_t	Game_GetCurrentScore(void)
+{
+	return game.scoreInfo.currScore;
+}
+
+uint8_t	Game_GetHighScore(void)
+{
+	return game.scoreInfo.highScore;	
+}
+
+void Game_SetCurrentScore(uint8_t newCurrentScore)
+{
+	game.scoreInfo.currScore = newCurrentScore;
+}
+
+void Game_SetHighScore(uint8_t newHighScore)
+{
+	game.scoreInfo.highScore = newHighScore;
 }

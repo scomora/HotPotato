@@ -11,32 +11,13 @@
 #include "timer.h"
 #include "gpio.h"
 
-#define DEFAULT_HIGH_SCORE		(10)
-
 int main(void)
 {
 	GPIO_Init();
 	TC_Init();
 	Game_InitGame();
 	
-	GameState_e roundResult;
-    while (TRUE)
-	{
-		roundResult = Game_PlayRound();
-		switch(roundResult)
-		{
-			case ROUND_LOSS:
-			{
-				break;
-			}
-			case ROUND_WIN:
-			{
-				Game_IncrementCurrentScore();
-				Game_FlashCurrentScoreOnLeds();
-				break;
-			}
-		}
-	}
-	while (1);
+	// game entrypoint. never returns
+	Game_RunGame();
 }
 

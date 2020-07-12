@@ -10,9 +10,9 @@
 #define TIMER_H_
 
 #define FRAME_EXPIRATION_TIME	(0xF)	// defined in ms
-#define TCC0_PRESCALER_gc		(TC_CLKSEL_DIV1024_gc)
-#define TCC0_PRESCALER			(1024)
-#define TCC0_PERIOD				(0xFF)
+#define TCD0_PRESCALER_gc		(TC_CLKSEL_DIV1024_gc)
+#define TCD0_PRESCALER			(1024)
+#define TCD0_PERIOD				(0xFF)
 
 void TC_Init(void);
 void TC_Start(void);

@@ -39,7 +39,7 @@ void GPIO_InitInterrupts(void)
 	sei();
 }
 
-UserInput_e GPIO_GetMostRecentUserInput(void)
+uint8_t GPIO_GetMostRecentUserInput(void)
 {
 	return mostRecentUserInput;
 }
