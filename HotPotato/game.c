@@ -13,8 +13,6 @@
 static Game_t game = {0};
 #define CLEAR_SCREEN	(0x00)
  
-Game_t game;
-
 void Game_InitGame(void)
 {
 	Rand_Init();
@@ -38,7 +36,7 @@ void Game_RunGame(void)
 			case ROUND_WIN:
 			{
 				Game_IncrementCurrentScore();
-				Game_FlashCurrentScoreOnLeds();
+				Game_DisplayCurrentScoreOnLeds();
 				break;
 			}
 		}
