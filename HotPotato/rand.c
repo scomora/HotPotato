@@ -8,9 +8,10 @@
 #include "rand.h"
 #include "timer.h"
 
-void	Rand_Init(void)
+void Rand_Init(void)
 {
-	
+	TCC0.PER = 0xFF;
+	TCC0.CTRLA = TC_CLKSEL_DIV4_gc;
 }
 
 uint8_t	Rand_GetRandomU8(void)
@@ -30,10 +31,6 @@ uint8_t Rand_RoundUpToNearestPowerOfTwoU8(uint8_t valuetoRound)
 	valuetoRound |= valuetoRound >> 2;
 	valuetoRound |= valuetoRound >> 4;
 	valuetoRound |= valuetoRound >> 8;
-	valuetoRound |= valuetoRound >> 16;
-	valuetoRound |= valuetoRound >> 32;
-	valuetoRound |= valuetoRound >> 64;
-	valuetoRound |= valuetoRound >> 128;
 	valuetoRound++;
 	return valuetoRound;
 }
