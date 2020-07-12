@@ -2,7 +2,7 @@
  * game.c
  *
  * Created: 7/11/2020 5:07:01 PM
- *  Author: Spencer Comora
+ *  Author: Spencer Comora, Matthew Gerstel
  */ 
 
 #include "game.h"
@@ -11,6 +11,9 @@
 #include "gpio.h"
  
 static Game_t game = {0};
+#define CLEAR_SCREEN	(0x00)
+ 
+Game_t game;
 
 void Game_InitGame(void)
 {
@@ -93,7 +96,7 @@ void Game_IncrementCurrentScore(void)
 	game.scoreInfo.currScore++;
 }
 
-void Game_FlashCurrentScoreOnLeds(void)
+void Game_DisplayCurrentScoreOnLeds(void)
 {
 	asm("nop");
 }
@@ -121,4 +124,21 @@ void Game_SetCurrentScore(uint8_t newCurrentScore)
 void Game_SetHighScore(uint8_t newHighScore)
 {
 	game.scoreInfo.highScore = newHighScore;
+}
+
+void Game_HandleLoss(void)
+{
+	// TODO: Play loss animation
+	if (game.scoreInfo.currScore > game.scoreInfo.highScore)
+	{
+		game.scoreInfo.highScore = game.scoreInfo.currScore;
+		game.scoreInfo.currScore = 0;
+		//TODO: Blink High Score
+	}
+	else
+	{
+		//TODO: Display Score
+		game.scoreInfo.currScore = 0;
+	}
+	//TODO: GOTO Main Menu
 }
