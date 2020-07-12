@@ -10,23 +10,24 @@
 
 void TC_Init(void)
 {
-	TCC0.PER = TCC0_PERIOD;
+	TCD0.PER = TCD0_PERIOD;
 }
 
 void TC_Start(void)
 {
-	TCC0.CNT = 0;
-	TCC0.CTRLA = TCC0_PRESCALER_gc;
+	TC_clear_ovfif();
+	TCD0.CNT = 0;
+	TCD0.CTRLA = TC_CLKSEL_DIV1024_gc;
 }
 
 void TC_poll_overflow(void)
 {
-	while ((TCC0.INTFLAGS & TC0_OVFIF_bm) == 0);
+	while ((TCD0.INTFLAGS & TC0_OVFIF_bm) == 0);
 }
 
 inline void TC_clear_ovfif(void)
 {
-	TCC0.INTFLAGS |= TC0_OVFIF_bm;
+	TCD0.INTFLAGS |= TC0_OVFIF_bm;
 }
 
 void Delay_1s(void)

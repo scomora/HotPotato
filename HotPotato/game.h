@@ -34,9 +34,15 @@ typedef struct
 } Game_t;
 
 void		Game_InitGame(void);
+void		Game_RunGame(void);
+Bool_e		Game_DoesUserWantToQuit(void);
 GameState_e	Game_PlayRound(void);
 void		Game_IncrementCurrentScore(void);
 void		Game_FlashCurrentScoreOnLeds(void);
 GameState_e Game_GetGameState(void);
+uint8_t		Game_GetCurrentScore(void);
+uint8_t		Game_GetHighScore(void);
+void		Game_SetCurrentScore(uint8_t newCurrentScore);
+void		Game_SetHighScore(uint8_t newHighScore);
 
 #endif /* GAME_H_ */
