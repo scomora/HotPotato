@@ -17,5 +17,4 @@ typedef enum
 	TRUE
 } Bool_e;
 
-
 #endif /* TYPES_H_ */
