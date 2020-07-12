@@ -10,7 +10,7 @@
 #include "timer.h"
 #include "gpio.h"
  
-Game_t game;
+static Game_t game = {0};
 
 void Game_InitGame(void)
 {
