@@ -19,9 +19,8 @@ int main(void)
 	TC_Init();
 	Game_InitGame();
 	
-    /* Replace with your application code */
 	GameState_e roundResult;
-    while (GPIO_GetMostRecentUserInput() != USER_QUIT)
+    while (TRUE)
 	{
 		roundResult = Game_PlayRound();
 		switch(roundResult)

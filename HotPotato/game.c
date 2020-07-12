@@ -21,23 +21,34 @@ void Game_InitGame(void)
 
 GameState_e	Game_PlayRound(void)
 {
-	uint8_t prevUserInput = PORTA.IN;
-	Bool_e userGuessedCorrectly = FALSE;
-	uint8_t valueToSwitchOn = Rand_GetRandomPowerOfTwoU8();
+	volatile uint8_t initialUserInput;
+	volatile uint8_t currUserInput;
+	volatile uint8_t changeInUserInput;
+	Bool_e userGuessedCorrectly;
+	uint8_t valueToSwitchOn;
+	
+	initialUserInput = PORTA.IN;
+	userGuessedCorrectly = FALSE;
+	valueToSwitchOn = Rand_GetRandomPowerOfTwoU8();
+	
 	GPIO_WriteValueToLeds(valueToSwitchOn);
-	PORTC.OUT = ~valueToSwitchOn;
 	TC_Start();
+	
 	while ((TCC0.INTFLAGS & TC0_OVFIF_bm) != TC0_OVFIF_bm)
 	{
-		if ((PORTA.IN ^ prevUserInput) == valueToSwitchOn)
+		currUserInput = GPIO_GetUserInputAtSwitches();
+		changeInUserInput = currUserInput ^ initialUserInput;
+		if (valueToSwitchOn == changeInUserInput)
 		{
 			userGuessedCorrectly = TRUE;
 		}
 	}
+	
 	if (userGuessedCorrectly == TRUE)
 	{
 		return ROUND_WIN;
 	}
+	
 	return ROUND_LOSS;
 }
 
@@ -53,5 +64,5 @@ void Game_FlashCurrentScoreOnLeds(void)
 
 GameState_e Game_GetGameState(void)
 {
-	return ROUND_LOSS;
+	return game.gameState;
 }

@@ -15,6 +15,14 @@
 /*                             DEFINES									*/
 /************************************************************************/
 
+// PORTF - buttons 
+// S1 - PF2
+// S2 - PF3
+#define SLB_S1_bp		PIN2_bp
+#define SLB_S2_bp		PIN3_bp
+#define SLB_S1_bm		1 << SLB_S1_bp
+#define SLB_S2_bm		1 << SLB_S2_bp
+
 #define ALL_BITS_8		(0xFF)
 
 /************************************************************************/
@@ -23,7 +31,7 @@
 
 typedef enum
 {
-	USER_QUIT	=	PIN0_bm
+	USER_QUIT	=	SLB_S1_bm
 } UserInput_e;
 
 /************************************************************************/
@@ -31,9 +39,11 @@ typedef enum
 /************************************************************************/
 
 void		GPIO_Init(void);
+void		GPIO_InitInterrupts(void);
 UserInput_e GPIO_GetMostRecentUserInput(void);
 void		GPIO_WriteValueToLeds(uint8_t value);
 uint8_t		GPIO_GetUserInputAtSwitches(void);
+uint8_t		GPIO_GetUserInputAtButtons(void);
 
 
 #endif /* GPIO_H_ */
