@@ -2,12 +2,14 @@
  * timer.h
  *
  * Created: 7/11/2020 3:12:54 PM
- *  Author: Spencer Comora
+ *  Author: Spencer Comora, Matthew Gerstel
  */ 
 
 
 #ifndef TIMER_H_
 #define TIMER_H_
+
+#include <avr/io.h>
 
 #define FRAME_EXPIRATION_TIME	(0xF)	// defined in ms
 #define TCD0_PRESCALER_gc		(TC_CLKSEL_DIV1024_gc)
